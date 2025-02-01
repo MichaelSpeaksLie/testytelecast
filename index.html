@@ -1,0 +1,52 @@
+<form class="formq" id="commentForm">
+    <div class="head1">
+        <h1 class="main_heading"><u>Reach Us</u></h1>
+    </div>
+
+    <div style="padding: 12px;" class="sec-cont">
+        <p>Name: <input type="text" id="name" class="Nameq" style="padding:4px; border-radius: 5px; border: none;" placeholder="Enter Your Name" required></p>
+        <br>
+
+        <p>Roll No: <input class="rollq" type="text" id="roll" placeholder="Roll No." required></p>
+        <br>
+
+        <label>Give your Feedback:</label>
+        <input type="radio" id="positive" name="feedback" value="Positive">
+        <label for="positive">Positive</label>
+        <input type="radio" id="negative" name="feedback" value="Negative">
+        <label for="negative">Negative</label>
+        <input type="radio" id="neutral" name="feedback" value="Neutral">
+        <label for="neutral">Neutral</label>
+
+        <br><br>
+
+        <textarea class="msgq" id="message" rows="8" placeholder="Some message here..." required></textarea>
+        <br>
+
+        <button type="submit" class="submitq">Submit</button>
+    </div>
+</form>
+
+<p id="responseMessage"></p>
+
+<script>
+    document.getElementById("commentForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const formData = {
+            name: document.getElementById("name").value,
+            roll: document.getElementById("roll").value,
+            feedback: document.querySelector('input[name="feedback"]:checked')?.value || "Not Provided",
+            message: document.getElementById("message").value
+        };
+
+        const response = await fetch("http://localhost:5000/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        document.getElementById("responseMessage").innerText = result.message;
+    });
+</script>
