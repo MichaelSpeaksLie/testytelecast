@@ -1,18 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import csv
 from datetime import datetime
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend communication
+CORS(app)
 
 CSV_FILE = "response.csv"
 
-# Ensure CSV file has headers
-with open(CSV_FILE, "a", newline="") as file:
-    writer = csv.writer(file)
-    if file.tell() == 0:  # If file is empty, write headers
-        writer.writerow(["Date", "Time", "Name", "Roll No", "Feedback", "Message"])
+@app.route("/")
+def home():
+    return open("index.html").read()
 
 @app.route("/submit", methods=["POST"])
 def submit_comment():
