@@ -4,6 +4,14 @@ import os
 from datetime import datetime
 from flask_cors import CORS
 
+
+import psycopg2
+
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://testytelecast_user:K4cRPuyA8rDvWMVVAeyHrFRvhbBZCOrL@dpg-cufe8g8gph6c7383bh0g-a.oregon-postgres.render.com/testytelecast")
+
+conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+
+
 app = Flask(__name__)
 CORS(app)  # Allow frontend to communicate with backend
 
