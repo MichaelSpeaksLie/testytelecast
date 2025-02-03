@@ -1,52 +1,90 @@
-<form class="formq" id="commentForm">
-    <div class="head1">
-        <h1 class="main_heading"><u>Reach Us</u></h1>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    <div style="padding: 12px;" class="sec-cont">
-        <p>Name: <input type="text" id="name" class="Nameq" style="padding:4px; border-radius: 5px; border: none;" placeholder="Enter Your Name" required></p>
-        <br>
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-        <p>Roll No: <input class="rollq" type="text" id="roll" placeholder="Roll No." required></p>
-        <br>
+        input[type="radio"] {
+            width: auto;
+        }
 
-        <label>Give your Feedback:</label>
-        <input type="radio" id="positive" name="feedback" value="Positive">
-        <label for="positive">Positive</label>
-        <input type="radio" id="negative" name="feedback" value="Negative">
-        <label for="negative">Negative</label>
-        <input type="radio" id="neutral" name="feedback" value="Neutral">
-        <label for="neutral">Neutral</label>
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
 
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Feedback Form</h2>
+    
+    <form id="feedbackForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="roll">Roll No:</label>
+        <input type="text" id="roll" required>
+
+        <label>Give your Feedback:</label><br>
+        <input type="radio" name="feedback" value="Positive"> Positive
+        <input type="radio" name="feedback" value="Negative"> Negative
+        <input type="radio" name="feedback" value="Neutral"> Neutral
         <br><br>
 
-        <textarea class="msgq" id="message" rows="8" placeholder="Some message here..." required></textarea>
-        <br>
+        <label for="message">Message:</label>
+        <textarea id="message" rows="5" placeholder="Type your message here..."></textarea>
 
-        <button type="submit" class="submitq">Submit</button>
-    </div>
-</form>
+        <input type="submit" value="Submit">
+    </form>
 
-<p id="responseMessage"></p>
+    <p id="responseMessage" style="color: green;"></p>
 
-<script>
-    document.getElementById("commentForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
+    <script>
+        document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+            e.preventDefault();
 
-        const formData = {
-            name: document.getElementById("name").value,
-            roll: document.getElementById("roll").value,
-            feedback: document.querySelector('input[name="feedback"]:checked')?.value || "Not Provided",
-            message: document.getElementById("message").value
-        };
+            let formData = new FormData();
+            formData.append("name", document.getElementById("name").value);
+            formData.append("roll", document.getElementById("roll").value);
+            formData.append("feedback", document.querySelector('input[name="feedback"]:checked')?.value || "No response");
+            formData.append("message", document.getElementById("message").value);
 
-        const response = await fetch("http://localhost:5000/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
+            fetch("https://script.google.com/macros/s/AKfycbx6kyqzADScbWdnkjF54XiZFN2v_5Js2KLNiqxdJrvJxfbuoFr3Q5_TjlbU6y4KVV2_/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("responseMessage").innerText = "Form submitted successfully!";
+                document.getElementById("feedbackForm").reset();
+            })
+            .catch(error => console.error("Error:", error));
         });
+    </script>
 
-        const result = await response.json();
-        document.getElementById("responseMessage").innerText = result.message;
-    });
-</script>
+</body>
+</html>
