@@ -14,16 +14,12 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-
-        input[type="radio"] {
-            width: auto;
         }
 
         input[type="submit"] {
@@ -41,22 +37,23 @@
 <body>
 
     <h2>Feedback Form</h2>
-    
+
     <form id="feedbackForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" name="name" required>
 
         <label for="roll">Roll No:</label>
-        <input type="text" id="roll" required>
+        <input type="text" id="roll" name="roll" required>
 
-        <label>Give your Feedback:</label><br>
-        <input type="radio" name="feedback" value="Positive"> Positive
-        <input type="radio" name="feedback" value="Negative"> Negative
-        <input type="radio" name="feedback" value="Neutral"> Neutral
-        <br><br>
+        <label for="feedback">Feedback:</label>
+        <select id="feedback" name="feedback" required>
+            <option value="Positive">Positive</option>
+            <option value="Negative">Negative</option>
+            <option value="Neutral">Neutral</option>
+        </select>
 
         <label for="message">Message:</label>
-        <textarea id="message" rows="5" placeholder="Type your message here..."></textarea>
+        <textarea id="message" name="message" required></textarea>
 
         <input type="submit" value="Submit">
     </form>
@@ -64,25 +61,28 @@
     <p id="responseMessage" style="color: green;"></p>
 
     <script>
-        document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+        const form = document.getElementById("feedbackForm");
+        form.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            let formData = new FormData();
-            formData.append("name", document.getElementById("name").value);
-            formData.append("roll", document.getElementById("roll").value);
-            formData.append("feedback", document.querySelector('input[name="feedback"]:checked')?.value || "No response");
-            formData.append("message", document.getElementById("message").value);
+            const formData = new FormData(form);
 
-            fetch("https://script.google.com/macros/s/AKfycbx6kyqzADScbWdnkjF54XiZFN2v_5Js2KLNiqxdJrvJxfbuoFr3Q5_TjlbU6y4KVV2_/exec", {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbwvPOTHmDzRYJ1WZ0vjPqITAbiosg0GSJtLjmeMeJovyFpNwOupG3vsX5m0sTqRIraM/exec"; // Your URL is here
+
+            fetch(scriptUrl, {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.text())
+            .then(response => response.text()) // Get the response as text
             .then(data => {
+                console.log("Response from server:", data); // Log the response for debugging
                 document.getElementById("responseMessage").innerText = "Form submitted successfully!";
-                document.getElementById("feedbackForm").reset();
+                form.reset();
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+                console.error("Error submitting form:", error);
+                document.getElementById("responseMessage").innerText = "Error submitting form. Please try again.";
+            });
         });
     </script>
 
