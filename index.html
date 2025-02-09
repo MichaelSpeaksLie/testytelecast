@@ -38,26 +38,37 @@
 
     <h2>Feedback Form</h2>
 
-    <form id="feedbackForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+    <div class="container">
+        <form class="formq" action="" method="get">
+          <div class="head1">
+              <h1 class="main_heading"><u>Reach Us</u></h1>
+          </div>
 
-        <label for="roll">Roll No:</label>
-        <input type="text" id="roll" name="roll" required>
+ 
+             <div style="padding: 12px;" class="sec-cont">
+             <p>Name: <input type="text" name="name"class="Nameq" style="padding:4px ;  border-radius: 5px; border: none;" placeholder="Enter Your Name" required> </p>
+             <br>
+      
+             <p>Roll No: <input class="rollq" type="text" name="name" placeholder="Roll No." required> </p>
+             <br>
+          <label>Give your Feedback:</label>
+          <input type="radio" id="option1" name="feedback" value="Option 1">
+          <label for="option1">Positive</label>
+          <input type="radio" id="option2" name="feedback" value="Option 2">
+          <label for="option2">Negative</label>
+          <input type="radio" id="option3" name="feedback" value="Option 3">
+          <label for="option3">Neutral</label>
 
-        <label for="feedback">Feedback:</label>
-        <select id="feedback" name="feedback" required>
-            <option value="Positive">Positive</option>
-            <option value="Negative">Negative</option>
-            <option value="Neutral">Neutral</option>
-        </select>
+          <br>
+          <br>
 
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-
-        <input type="submit" value="Submit">
-    </form>
-
+      <textarea class="msgq" name="address" id="address"   rows="8" placeholder="some message here..."></textarea></p>
+ 
+      <input class="submitq" type="submit" value="Submit">
+      
+      </form>
+      </div>
+    
     <p id="responseMessage" style="color: green;"></p>
 
     <script>
