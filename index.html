@@ -91,9 +91,7 @@
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwnwXIi7P5u8fXQlH16QmyJWFqk50TLUrviTL8NWWsqiYK9rNtje03m1CCKOxWudQ5-/exec"; // **REPLACE WITH YOUR ACTUAL SCRIPT URL**
 
-        document.getElementById("responseMessage").innerText = "Thank you for your feedback!"; // Update message display
-        form.reset();
-
+        
         
         fetch(scriptUrl, {
             method: "POST",
@@ -102,6 +100,9 @@
         .then(response => response.text())
         .then(data => {
             console.log("Success:", data);
+            document.getElementById("responseMessage").innerText = "Thank you for your feedback!"; // Update message display
+            form.reset();
+
         })
         .catch(error => {
             console.error("Error:", error);
